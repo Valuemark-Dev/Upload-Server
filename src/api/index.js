@@ -68,6 +68,7 @@ export default ({ config, db }) => {
 	api.get('/', (req, res) => {
 		res.json({
 			message: 'Here Upload server is ready to use!',
+			path: req.route.path,
 		})
 	});
 
