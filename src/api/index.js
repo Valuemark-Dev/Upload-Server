@@ -60,7 +60,6 @@ export default ({ config, db }) => {
 			cb(null, 'public/upload/avatar');
 		},
 		filename: function (req, file, cb) {
-			console.log(req.body.type);
 			const [ fname, ext ] = file.originalname.split('.');
 			const randStr = Math.floor(Math.random() * 10000);
 			cb(null, fname + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
@@ -80,47 +79,88 @@ export default ({ config, db }) => {
 		})
 	});
 
-	api.post('/public/api', upload.single('file'), (req, res, next) => {
+	api.post('/assist/upload', upload.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a file');
 			error.httpStatusCode = 400;
 			return next(error);
 		}
-		res.send(file);
+		const result = {
+			fieldname: file.fieldname,
+			originalname: file.originalname,
+			encoding: file.encoding,
+			mimetype: file.mimetype,
+			destination: file.destination.replace('public', 'assist'),
+			filename: file.filename,
+			path: file.path.replace('public', 'assist'),
+			size: file.size,
+		}
+		res.send(result);
 	});
 
-	api.post('/public/api/signature', uploadSignature.single('file'), (req, res, next) => {
+	api.post('/assist/upload/signature', uploadSignature.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a signature file');
 			error.httpStatusCode = 400;
 			return next(error);
 		}
-		res.send(file);
+		console.log("destination", file.destination);
+		const result = {
+			fieldname: file.fieldname,
+			originalname: file.originalname,
+			encoding: file.encoding,
+			mimetype: file.mimetype,
+			destination: file.destination.replace('public', 'assist'),
+			filename: file.filename,
+			path: file.path.replace('public', 'assist'),
+			size: file.size,
+		}
+		res.send(result);
 	});
 
-	api.post('/public/api/document', uploadDocument.single('file'), (req, res, next) => {
+	api.post('/assist/upload/document', uploadDocument.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a document file');
 			error.httpStatusCode = 400;
 			return next(error);
 		}
-		res.send(file);
+		const result = {
+			fieldname: file.fieldname,
+			originalname: file.originalname,
+			encoding: file.encoding,
+			mimetype: file.mimetype,
+			destination: file.destination.replace('public', 'assist'),
+			filename: file.filename,
+			path: file.path.replace('public', 'assist'),
+			size: file.size,
+		}
+		res.send(result);
 	});
 
-	api.post('/public/api/avatar', uploadAvatar.single('file'), (req, res, next) => {
+	api.post('/assist/upload/avatar', uploadAvatar.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a avatar file');
 			error.httpStatusCode = 400;
 			return next(error);
 		}
-		res.send(file);
+		const result = {
+			fieldname: file.fieldname,
+			originalname: file.originalname,
+			encoding: file.encoding,
+			mimetype: file.mimetype,
+			destination: file.destination.replace('public', 'assist'),
+			filename: file.filename,
+			path: file.path.replace('public', 'assist'),
+			size: file.size,
+		}
+		res.send(result);
 	});
 
-	api.get('/maps/api/:param1/:param2', (req, res) => {
+	api.get('/assist/maps/:param1/:param2', (req, res) => {
         axiosInstance.get(`/${req.params.param1}/${req.params.param2}`,{
             params:{
                 ...req.query
@@ -135,7 +175,7 @@ export default ({ config, db }) => {
         });
     });
 
-    api.get('/maps/api/:param1/:param2/:param3', (req, res) => {
+    api.get('/assist/maps/:param1/:param2/:param3', (req, res) => {
         axiosInstance.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}`,{
             params:{
                 ...req.query
@@ -150,7 +190,7 @@ export default ({ config, db }) => {
         });
     });
 
-	api.get('/maps/api/:param1/:param2/:param3/:param4', (req, res) => {
+	api.get('/assist/maps/:param1/:param2/:param3/:param4', (req, res) => {
         axiosInstance.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}/${req.params.param4}`,{
             params:{
                 ...req.query

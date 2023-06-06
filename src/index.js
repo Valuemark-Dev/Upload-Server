@@ -6,7 +6,6 @@ import bodyParser from 'body-parser';
 import initializeDb from './db';
 import middleware from './middleware';
 import api from './api';
-import maps from './maps';
 import config from './config.json';
 
 let app = express();
@@ -16,7 +15,7 @@ app.server = http.createServer(app);
 app.use(morgan('dev'));
 
 // static file serve
-app.use('/public', express.static('public'));
+app.use('/assist', express.static('public'));
 
 // 3rd party middleware
 app.use(cors({
