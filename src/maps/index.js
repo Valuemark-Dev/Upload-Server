@@ -10,6 +10,7 @@ const api = axios.create({
 })
 export default ({ config, db }) => {
 	const maps = Router();
+
 	maps.get('/', (req, res) => {
 		res.json({
 			message: 'Here Google map api server is ready to use!',
@@ -17,52 +18,34 @@ export default ({ config, db }) => {
 		})
 	});
 
-    maps.get('/:param1/:param2', async (req, res) => {
-        try{
-            const response = await api.get(`/${req.params.param1}/${req.params.param2}`,{
-                params:{
-                    ...req.query
-                }
-            });
+    maps.get('/:param1/:param2', (req, res) => {
+        api.get(`/${req.params.param1}/${req.params.param2}`,{
+            params:{
+                ...req.query
+            }
+        }).then((response) => {
             res.json({
                 ...response.data
             });
-        }catch(err){
+        }).catch((err)=>{
             console.log(err);
-            res.json({status:'Failed'})
-        }
+            res.json({status:'Failed'});
+        });
     });
 
-    maps.get('/:param1/:param2/:param3', async (req, res) => {
-        try{
-            const response = await api.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}`,{
-                params:{
-                    ...req.query
-                }
-            });
+    maps.get('/:param1/:param2/:param3', (req, res) => {
+        api.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}`,{
+            params:{
+                ...req.query
+            }
+        }).then((response) => {
             res.json({
                 ...response.data
             });
-        }catch(err){
+        }).catch((err)=>{
             console.log(err);
-            res.json({status:'Failed'})
-        }
-    });
-
-    maps.get('/:param1/:param2/:param3/:param4', async (req, res) => {
-        try{
-            const response = await api.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}/${req.params.param4}`,{
-                params:{
-                    ...req.query
-                }
-            });
-            res.json({
-                ...response.data
-            });
-        }catch(err){
-            console.log(err);
-            res.json({status:'Failed'})
-        }
+            res.json({status:'Failed'});
+        });
     });
 
 	return maps;
