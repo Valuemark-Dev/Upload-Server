@@ -72,7 +72,7 @@ export default ({ config, db }) => {
 	// mount the facets resource
 	api.use('/facets', facets({ config, db }));
 
-	api.get('/', (req, res) => {
+	api.get('/assist', (req, res) => {
 		res.json({
 			message: 'Here Assistance server is ready to use!',
 			path: req.route.path,
