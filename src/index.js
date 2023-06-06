@@ -34,7 +34,7 @@ initializeDb( db => {
 
 	// api router
 	app.use('/public/api', api({ config, db }));
-	app.use('/maps/api', maps({config, db}));
+	// app.use('/maps/api', maps({config, db}));
 
 	app.server.listen(process.env.PORT || config.port, () => {
 		console.log(`Started on port ${app.server.address().port}`);
