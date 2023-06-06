@@ -1,8 +1,16 @@
 import { Router } from 'express';
 import facets from './facets';
 import multer from 'multer';
+import axios from 'axios'
 var fs = require('fs');
-
+const axiosInstance = axios.create({
+    baseURL: 'https://maps.googleapis.com/maps/api',
+    withCredentials: false,
+    headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'Access-Control-Allow-Headers': '*',
+    },
+})
 export default ({ config, db }) => {
 	const api = Router();
 	const storage = multer.diskStorage({
@@ -67,12 +75,12 @@ export default ({ config, db }) => {
 
 	api.get('/', (req, res) => {
 		res.json({
-			message: 'Here Upload server is ready to use!',
+			message: 'Here Assistance server is ready to use!',
 			path: req.route.path,
 		})
 	});
 
-	api.post('/', upload.single('file'), (req, res, next) => {
+	api.post('/public/api', upload.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a file');
@@ -82,7 +90,7 @@ export default ({ config, db }) => {
 		res.send(file);
 	});
 
-	api.post('/signature', uploadSignature.single('file'), (req, res, next) => {
+	api.post('/public/api/signature', uploadSignature.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a signature file');
@@ -92,7 +100,7 @@ export default ({ config, db }) => {
 		res.send(file);
 	});
 
-	api.post('/document', uploadDocument.single('file'), (req, res, next) => {
+	api.post('/public/api/document', uploadDocument.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a document file');
@@ -102,7 +110,7 @@ export default ({ config, db }) => {
 		res.send(file);
 	});
 
-	api.post('/avatar', uploadAvatar.single('file'), (req, res, next) => {
+	api.post('/public/api/avatar', uploadAvatar.single('file'), (req, res, next) => {
 		const file = req.file;
 		if (!file) {
 			const error = new Error('Please upload a avatar file');
@@ -111,6 +119,51 @@ export default ({ config, db }) => {
 		}
 		res.send(file);
 	});
+
+	api.get('/maps/api/:param1/:param2', (req, res) => {
+        axiosInstance.get(`/${req.params.param1}/${req.params.param2}`,{
+            params:{
+                ...req.query
+            }
+        }).then((response) => {
+            res.json({
+                ...response.data
+            });
+        }).catch((err)=>{
+            console.log(err);
+            res.json({status:'Failed'});
+        });
+    });
+
+    api.get('/maps/api/:param1/:param2/:param3', (req, res) => {
+        axiosInstance.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}`,{
+            params:{
+                ...req.query
+            }
+        }).then((response) => {
+            res.json({
+                ...response.data
+            });
+        }).catch((err)=>{
+            console.log(err);
+            res.json({status:'Failed'});
+        });
+    });
+
+	api.get('/maps/api/:param1/:param2/:param3/:param4', (req, res) => {
+        axiosInstance.get(`/${req.params.param1}/${req.params.param2}/${req.params.param3}/${req.params.param4}`,{
+            params:{
+                ...req.query
+            }
+        }).then((response) => {
+            res.json({
+                ...response.data
+            });
+        }).catch((err)=>{
+            console.log(err);
+            res.json({status:'Failed'});
+        });
+    });
 
 	return api;
 }
