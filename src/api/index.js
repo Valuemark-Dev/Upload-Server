@@ -15,15 +15,17 @@ export default ({ config, db }) => {
 	const api = Router();
 	const storage = multer.diskStorage({
 		destination: function (req, file, cb) {
-			if (!fs.existsSync('public/upload/')){
-				fs.mkdirSync('public/upload/', { recursive: true });
+			const date = new Date();
+			const dirPath = 'public/upload/' + date.getFullYear() + '/' + (date.getUTCMonth() + 1) + '/' + date.getDate() + '/';
+			if (!fs.existsSync(dirPath)){
+				fs.mkdirSync(dirPath, { recursive: true });
 			}
-			cb(null, 'public/upload/');
+			cb(null, dirPath);
 		},
 		filename: function (req, file, cb) {
 			const [ fname, ext ] = file.originalname.split('.');
 			const randStr = Math.floor(Math.random() * 10000);
-			cb(null, fname + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
+			cb(null, fname.replace(' ', '-') + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
 		}
 	});
 	const storageSignature = multer.diskStorage({
@@ -36,7 +38,7 @@ export default ({ config, db }) => {
 		filename: function (req, file, cb) {
 			const [ fname, ext ] = file.originalname.split('.');
 			const randStr = Math.floor(Math.random() * 10000);
-			cb(null, fname + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
+			cb(null, fname.replace(' ', '-') + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
 		}
 	});
 	const storageDocument = multer.diskStorage({
@@ -49,7 +51,7 @@ export default ({ config, db }) => {
 		filename: function (req, file, cb) {
 			const [ fname, ext ] = file.originalname.split('.');
 			const randStr = Math.floor(Math.random() * 10000);
-			cb(null, fname + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
+			cb(null, fname.replace(' ', '-') + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
 		}
 	});
 	const storageAvatar = multer.diskStorage({
@@ -62,7 +64,7 @@ export default ({ config, db }) => {
 		filename: function (req, file, cb) {
 			const [ fname, ext ] = file.originalname.split('.');
 			const randStr = Math.floor(Math.random() * 10000);
-			cb(null, fname + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
+			cb(null, fname.replace(' ', '-') + '-' + randStr.toString() + '-' + Date.now() + '.' + ext);
 		}
 	});
 	const upload = multer({ storage: storage });
