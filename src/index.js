@@ -19,7 +19,8 @@ app.use('/assist', express.static('public'));
 
 // 3rd party middleware
 app.use(cors({
-	exposedHeaders: config.corsHeaders
+	exposedHeaders: config.corsHeaders,
+	origin: [...config.origins]
 }));
 
 app.use(bodyParser.json({
