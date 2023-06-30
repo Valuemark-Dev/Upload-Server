@@ -15,10 +15,7 @@ app.server = http.createServer(app);
 app.use(morgan('dev'));
 
 // 3rd party middleware
-app.use(cors({
-	exposedHeaders: config.corsHeaders,
-	origin: [...config.origins]
-}));
+app.use(cors());
 
 // static file serve
 app.use('/assist', express.static('public'));
