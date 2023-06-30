@@ -14,14 +14,14 @@ app.server = http.createServer(app);
 // logger
 app.use(morgan('dev'));
 
-// static file serve
-app.use('/assist', express.static('public'));
-
 // 3rd party middleware
 app.use(cors({
 	exposedHeaders: config.corsHeaders,
 	origin: [...config.origins]
 }));
+
+// static file serve
+app.use('/assist', express.static('public'));
 
 app.use(bodyParser.json({
 	limit : config.bodyLimit
